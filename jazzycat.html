@@ -1,0 +1,584 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Ask JazzyCat | Balcony Music Club</title>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Poiret+One&family=Limelight&display=swap');
+
+    :root{
+      --gold:#ffd76b;
+      --gold2:#ffbf47;
+      --cream:#fff7dc;
+      --soft:#fff0d0;
+      --panel:#1b090a;
+      --line:rgba(255,232,161,.22);
+      --shadow:0 0 18px rgba(255,145,90,.28);
+    }
+
+    *{box-sizing:border-box}
+
+    html,body{
+      margin:0;
+      min-height:100%;
+      color:var(--cream);
+      font-family:'Poiret One','Trebuchet MS','Geneva',sans-serif;
+      background-color:#120707;
+      background-image:
+        radial-gradient(circle at 10% 22%, rgba(72,102,42,.16) 0 2.4%, transparent 2.6%),
+        radial-gradient(circle at 24% 42%, rgba(78,114,48,.12) 0 2%, transparent 2.2%),
+        radial-gradient(circle at 40% 30%, rgba(66,96,41,.14) 0 2.1%, transparent 2.3%),
+        radial-gradient(circle at 58% 46%, rgba(84,122,54,.12) 0 2.2%, transparent 2.4%),
+        radial-gradient(circle at 74% 24%, rgba(72,103,46,.13) 0 2.1%, transparent 2.4%),
+        radial-gradient(circle at 88% 40%, rgba(65,95,39,.12) 0 2.2%, transparent 2.4%),
+        linear-gradient(180deg, rgba(0,0,0,0) 0 240px, rgba(0,0,0,.04) 240px 100%),
+        repeating-linear-gradient(0deg,#2b211c 0 32px,#201813 32px 36px),
+        repeating-linear-gradient(90deg,transparent 0 78px,#1b130f 78px 82px,transparent 82px 160px),
+        repeating-linear-gradient(90deg,#362821 0 76px,#2d211b 76px 80px,#382a23 80px 156px,#291d17 156px 160px);
+      background-attachment:fixed;
+    }
+
+    body::before{
+      content:"";
+      position:fixed;
+      top:0; left:0; right:0;
+      height:240px;
+      pointer-events:none;
+      z-index:-1;
+      background:
+        linear-gradient(#f7e8a6,#f7e8a6) calc(100% - 90px) 48px / 18px 18px no-repeat,
+        linear-gradient(#d9ca87,#d9ca87) calc(100% - 82px) 56px / 6px 6px no-repeat,
+        linear-gradient(#f3f0cf,#f3f0cf) 6% 34px / 4px 4px no-repeat,
+        linear-gradient(#f3f0cf,#f3f0cf) 12% 72px / 4px 4px no-repeat,
+        linear-gradient(#f3f0cf,#f3f0cf) 18% 24px / 4px 4px no-repeat,
+        linear-gradient(#f3f0cf,#f3f0cf) 25% 98px / 4px 4px no-repeat,
+        linear-gradient(#f3f0cf,#f3f0cf) 31% 42px / 4px 4px no-repeat,
+        linear-gradient(#f3f0cf,#f3f0cf) 38% 84px / 4px 4px no-repeat,
+        linear-gradient(#f3f0cf,#f3f0cf) 46% 28px / 4px 4px no-repeat,
+        linear-gradient(#f3f0cf,#f3f0cf) 52% 68px / 4px 4px no-repeat,
+        linear-gradient(#f3f0cf,#f3f0cf) 60% 36px / 4px 4px no-repeat,
+        linear-gradient(#f3f0cf,#f3f0cf) 67% 86px / 4px 4px no-repeat,
+        linear-gradient(#f3f0cf,#f3f0cf) 74% 26px / 4px 4px no-repeat,
+        linear-gradient(#f3f0cf,#f3f0cf) 82% 70px / 4px 4px no-repeat,
+        linear-gradient(#f3f0cf,#f3f0cf) 89% 34px / 4px 4px no-repeat,
+        linear-gradient(#f3f0cf,#f3f0cf) 94% 92px / 4px 4px no-repeat,
+        linear-gradient(180deg, rgba(6,12,44,.96) 0%, rgba(15,24,72,.92) 60%, rgba(20,27,60,.14) 100%);
+    }
+
+    .page-shell{
+      width:min(1580px,100%);
+      margin:0 auto;
+      padding:14px;
+    }
+
+    .site-bar,.hero,.sidebar,.chat-wrap{
+      border:3px solid #ffe48a;
+      border-radius:22px;
+      background:radial-gradient(circle at top, rgba(255,220,160,.06), transparent 28%), linear-gradient(180deg, rgba(34,8,9,.96) 0%, rgba(21,5,6,.98) 100%);
+      box-shadow:0 0 0 1px rgba(255,255,255,.12) inset, 0 0 32px rgba(255,166,98,.14), 0 0 64px rgba(255,212,120,.10);
+    }
+
+    .site-bar{ overflow:hidden; margin-bottom:14px; }
+    .site-bar .track-wrap{ overflow:hidden; white-space:nowrap; padding:10px 0 8px; border-top:1px solid rgba(255,236,166,.18); border-bottom:1px solid rgba(255,236,166,.18); }
+    .site-bar .track{
+      display:inline-block; min-width:200%; padding-left:100%;
+      font-size:17px; line-height:1.3; letter-spacing:1.5px;
+      color:#fff5c8; text-transform:uppercase; text-shadow:0 0 10px rgba(255,205,120,.35);
+      animation:marquee 24s linear infinite; font-weight:700;
+    }
+
+    .hero{ padding:28px 24px 24px; margin-bottom:14px; }
+    .hero h1{
+      margin:0 0 10px; font-family:'Limelight','Georgia',serif; font-weight:400;
+      font-size:clamp(34px,5vw,68px); line-height:1.02; letter-spacing:1.4px; text-transform:uppercase;
+      color:#fff8e6; text-shadow:0 2px 0 rgba(0,0,0,.24), 0 0 16px rgba(255,125,70,.24);
+    }
+    .hero p{ margin:0 0 14px; font-size:20px; line-height:1.35; color:var(--soft); font-weight:700; max-width:980px; }
+    .pill-row{ display:flex; flex-wrap:wrap; gap:10px; margin-top:12px; }
+    .pill{ padding:9px 12px 8px; border-radius:999px; font-size:13px; letter-spacing:1px; text-transform:uppercase; color:#fffdf4; background:linear-gradient(180deg, rgba(214,79,65,.95), rgba(122,13,13,.95)); border:1px solid rgba(255,255,255,.18); box-shadow:0 0 10px rgba(255,120,90,.18); font-weight:700; }
+    .pill.gold{ color:#5b0404; background:linear-gradient(180deg,#fff3c3,#ffc84b); border-color:rgba(255,245,187,.8); font-family:'Limelight','Georgia',serif; font-weight:400; }
+
+    .main-grid{ display:grid; grid-template-columns:360px 1fr; gap:14px; }
+    .sidebar{ padding:18px; }
+    .sidebar h2,.chat-head h2{ margin:0 0 12px; font-family:'Limelight','Georgia',serif; font-weight:400; font-size:32px; line-height:1.04; letter-spacing:1.2px; text-transform:uppercase; }
+    .sidebar p{ margin:0 0 12px; font-size:18px; line-height:1.35; color:var(--soft); font-weight:700; }
+    .fact-list{ display:grid; gap:10px; margin:16px 0 16px; }
+    .fact-item{ padding:12px 12px 10px; border-radius:14px; background:rgba(62,0,0,.56); border:1px solid rgba(255,223,142,.22); font-size:16px; line-height:1.4; color:#fff7e4; }
+    .fact-item strong{ display:block; margin-bottom:4px; color:#ffd96e; font-family:'Limelight','Georgia',serif; font-weight:400; letter-spacing:1px; text-transform:uppercase; }
+    .quick-asks{ display:flex; flex-wrap:wrap; gap:10px; margin-top:14px; }
+    .quick-btn{ appearance:none; border:none; cursor:pointer; padding:10px 12px 9px; border-radius:999px; font-size:13px; letter-spacing:1px; text-transform:uppercase; color:#fffdf4; background:linear-gradient(180deg, rgba(214,79,65,.95), rgba(122,13,13,.95)); border:1px solid rgba(255,255,255,.18); box-shadow:0 0 10px rgba(255,120,90,.18); font-family:'Poiret One','Trebuchet MS','Geneva',sans-serif; font-weight:700; }
+
+    .chat-wrap{ display:grid; grid-template-rows:auto 1fr auto; min-height:760px; overflow:hidden; }
+    .chat-head{ display:flex; align-items:center; justify-content:space-between; gap:14px; padding:18px 18px 14px; border-bottom:1px solid rgba(255,232,161,.16); background:rgba(55,0,0,.26); }
+    .status{ font-size:13px; letter-spacing:1px; text-transform:uppercase; padding:8px 10px 7px; border-radius:999px; background:linear-gradient(180deg,#fff2b8,#ffc955); color:#590404; font-family:'Limelight','Georgia',serif; box-shadow:0 0 14px rgba(255,210,114,.22); }
+    .chat-log{ padding:18px; overflow:auto; display:flex; flex-direction:column; gap:12px; background:linear-gradient(180deg, rgba(255,220,160,.03), transparent 24%), rgba(14,0,0,.16); }
+    .msg{ max-width:min(760px, 88%); padding:14px 14px 12px; border-radius:16px; font-size:17px; line-height:1.45; color:#fff7e4; border:1px solid rgba(255,223,142,.20); box-shadow:0 8px 20px rgba(0,0,0,.16); }
+    .msg.user{ align-self:flex-end; background:linear-gradient(180deg, rgba(196,74,61,.92), rgba(118,15,15,.92)); color:#fffdf7; }
+    .msg.bot{ align-self:flex-start; background:rgba(62,0,0,.60); }
+    .msg small{ display:block; margin-top:8px; font-size:12px; letter-spacing:.8px; text-transform:uppercase; color:#ffd96e; }
+    .typing{ display:inline-flex; align-items:center; gap:6px; }
+    .typing span{ width:7px; height:7px; border-radius:50%; background:#ffd96e; animation:typingBounce 1s infinite ease-in-out; }
+    .typing span:nth-child(2){ animation-delay:.15s; }
+    .typing span:nth-child(3){ animation-delay:.3s; }
+
+    .chat-compose{ padding:14px; border-top:1px solid rgba(255,232,161,.16); background:rgba(40,0,0,.22); }
+    .compose-row{ display:grid; grid-template-columns:1fr auto; gap:10px; }
+    .compose-row input{
+      width:100%; min-width:0; padding:14px 14px 12px; border-radius:14px; border:1px solid rgba(255,223,142,.24);
+      background:rgba(24,0,0,.56); color:#fff8e6; font-size:17px; font-family:'Poiret One','Trebuchet MS','Geneva',sans-serif; font-weight:700; outline:none;
+    }
+    .compose-row input::placeholder{ color:rgba(255,240,208,.72); }
+    .send-btn{
+      appearance:none; border:none; cursor:pointer; padding:14px 18px 12px; border-radius:14px;
+      font-size:14px; letter-spacing:1px; text-transform:uppercase; color:#5b0404;
+      background:linear-gradient(180deg,#fff3c3,#ffc84b); box-shadow:0 0 14px rgba(255,210,114,.24); font-family:'Limelight','Georgia',serif;
+    }
+    .compose-help{ margin-top:10px; font-size:14px; line-height:1.4; color:#fff0d0; }
+    a.inline-link{ color:#ffe595; }
+
+    @keyframes marquee{ 0%{ transform:translateX(0); } 100%{ transform:translateX(-100%); } }
+    @keyframes typingBounce{ 0%,80%,100%{ transform:translateY(0); opacity:.6; } 40%{ transform:translateY(-4px); opacity:1; } }
+
+    @media (max-width:1080px){
+      .main-grid{ grid-template-columns:1fr; }
+      .chat-wrap{ min-height:640px; }
+    }
+
+    @media (max-width:700px){
+      .page-shell{ padding:8px; }
+      .site-bar,.hero,.sidebar,.chat-wrap{ border-radius:0; }
+      .hero{ padding:20px 14px 18px; }
+      .hero p,.sidebar p,.fact-item,.msg{ font-size:16px; }
+      .site-bar .track{ font-size:13px; }
+      .compose-row{ grid-template-columns:1fr; }
+      .chat-wrap{ min-height:580px; }
+    }
+  </style>
+</head>
+<body>
+  <div class="page-shell">
+    <div class="site-bar">
+      <div class="track-wrap">
+        <div class="track">
+          ASK JAZZYCAT • BALCONY MUSIC CLUB • LIVE MUSIC WEDNESDAY–SUNDAY • BLOODY MARY BRUNCH • PAINT & SIP • PRIVATE EVENTS • ASK JAZZYCAT • BALCONY MUSIC CLUB • LIVE MUSIC WEDNESDAY–SUNDAY • BLOODY MARY BRUNCH • PAINT & SIP • PRIVATE EVENTS •
+        </div>
+      </div>
+    </div>
+
+    <section class="hero">
+      <h1>Ask JazzyCat</h1>
+      <p>JazzyCat is the Balcony Music Club website guide. It reads venue facts, FAQs, the current public schedule snapshot, and loaded artist metadata including genres and links when verified.</p>
+      <div class="pill-row" id="heroPills"></div>
+    </section>
+
+    <section class="main-grid">
+      <aside class="sidebar">
+        <h2>Quick Facts</h2>
+        <p id="sidebarSummary">Loading JazzyCat knowledge…</p>
+        <div class="fact-list" id="factList"></div>
+        <div class="quick-asks" id="quickAsks"></div>
+      </aside>
+
+      <section class="chat-wrap">
+        <div class="chat-head">
+          <h2 id="chatTitle">JazzyCat Chat</h2>
+          <div class="status" id="chatStatus">Loading…</div>
+        </div>
+
+        <div class="chat-log" id="chatLog">
+          <div class="msg bot">Loading JazzyCat knowledge files…</div>
+        </div>
+
+        <div class="chat-compose">
+          <div class="compose-row">
+            <input id="chatInput" type="text" placeholder="Ask JazzyCat…" autocomplete="off" />
+            <button class="send-btn" id="sendBtn">Ask</button>
+          </div>
+          <div class="compose-help">This page uses local JSON for club answers. Unknown facts are not invented.</div>
+        </div>
+      </section>
+    </section>
+  </div>
+
+  <script>
+    const state = {
+      knowledge: null,
+      schedule: null,
+      artists: null
+    };
+
+    async function loadJson(path){
+      const res = await fetch(path, { cache: 'no-store' });
+      if(!res.ok) throw new Error('Failed to load ' + path);
+      return await res.json();
+    }
+
+    function normalizeText(text){
+      return String(text || '')
+        .toLowerCase()
+        .replace(/[^\w\s&]/g, ' ')
+        .replace(/\s+/g, ' ')
+        .trim();
+    }
+
+    function titleCase(text){
+      return String(text || '').replace(/\b\w/g, c => c.toUpperCase());
+    }
+
+    function appendMessage(role, html, source){
+      const log = document.getElementById('chatLog');
+      const bubble = document.createElement('div');
+      bubble.className = 'msg ' + role;
+      bubble.innerHTML = html + (source ? `<small>${source}</small>` : '');
+      log.appendChild(bubble);
+      log.scrollTop = log.scrollHeight;
+    }
+
+    function setLoadingMessage(html){
+      document.getElementById('chatLog').innerHTML = `<div class="msg bot">${html}</div>`;
+    }
+
+    function appendTyping(){
+      const log = document.getElementById('chatLog');
+      const bubble = document.createElement('div');
+      bubble.className = 'msg bot';
+      bubble.id = 'typingBubble';
+      bubble.innerHTML = '<div class="typing" aria-label="JazzyCat is typing"><span></span><span></span><span></span></div>';
+      log.appendChild(bubble);
+      log.scrollTop = log.scrollHeight;
+    }
+
+    function removeTyping(){
+      const el = document.getElementById('typingBubble');
+      if(el) el.remove();
+    }
+
+    function renderUi(){
+      const k = state.knowledge;
+      document.getElementById('chatTitle').textContent = k.ui.panel_title;
+      document.getElementById('chatStatus').textContent = k.ui.status_label;
+      document.getElementById('chatInput').placeholder = k.ui.input_placeholder;
+      document.getElementById('sendBtn').textContent = k.ui.send_label;
+      document.getElementById('sidebarSummary').textContent = k.site.core_summary || k.site.summary;
+
+      const heroPills = document.getElementById('heroPills');
+      heroPills.innerHTML = '';
+      ['Wednesday–Sunday Live Music', 'Bloody Mary Brunch', 'Paint & Sip', 'Private Events'].forEach((label, idx) => {
+        const span = document.createElement('span');
+        span.className = 'pill ' + (idx % 2 === 0 ? 'gold' : '');
+        span.textContent = label;
+        heroPills.appendChild(span);
+      });
+
+      const factList = document.getElementById('factList');
+      factList.innerHTML = '';
+      const items = [
+        { title: 'Address', body: k.site.address },
+        { title: 'Live Music', body: k.recurring_programming.live_music.short_answer },
+        { title: 'Bloody Mary Brunch', body: k.recurring_programming.bloody_mary_brunch.short_answer },
+        { title: 'Paint and Sip', body: k.recurring_programming.paint_and_sip.short_answer },
+        { title: 'Private Events', body: k.recurring_programming.private_events.short_answer }
+      ];
+      items.forEach(item => {
+        const div = document.createElement('div');
+        div.className = 'fact-item';
+        div.innerHTML = `<strong>${item.title}</strong>${item.body}`;
+        factList.appendChild(div);
+      });
+
+      const quick = document.getElementById('quickAsks');
+      quick.innerHTML = '';
+      k.quick_questions.forEach(q => {
+        const btn = document.createElement('button');
+        btn.className = 'quick-btn';
+        btn.type = 'button';
+        btn.textContent = q;
+        btn.addEventListener('click', () => ask(q));
+        quick.appendChild(btn);
+      });
+
+      document.getElementById('chatLog').innerHTML = '';
+      appendMessage('bot', k.assistant.identity_lines.join('<br><br>'), 'Source: Local JazzyCat JSON files');
+    }
+
+    function faqScore(question, item){
+      const q = normalizeText(question);
+      let score = 0;
+      (item.keywords || []).forEach(keyword => {
+        const k = normalizeText(keyword);
+        if(k && q.includes(k)) score += Math.max(1, k.split(' ').length);
+      });
+      const normalizedQuestion = normalizeText(item.question || '');
+      if(normalizedQuestion && q.includes(normalizedQuestion)) score += 5;
+      return score;
+    }
+
+    function findFaqAnswer(question){
+      const faq = state.knowledge.faq || [];
+      let best = null;
+      let bestScore = 0;
+      faq.forEach(item => {
+        const score = faqScore(question, item);
+        if(score > bestScore){
+          bestScore = score;
+          best = item;
+        }
+      });
+      return bestScore > 0 ? best : null;
+    }
+
+    function formatDaySchedule(entry){
+      if(!entry || !entry.acts || !entry.acts.length) return null;
+      const lines = entry.acts.map(act => `${act.start_time} — ${act.artist_name}`);
+      return `${entry.day}, ${entry.date}<br><br>${lines.join('<br>')}`;
+    }
+
+    function findScheduleByDateOrDay(question){
+      if(!state.schedule || !state.schedule.schedule) return null;
+      const q = normalizeText(question);
+      const today = state.schedule.schedule?.[0]?.date || null;
+      if((q.includes('tonight') || q.includes('today')) && today){
+        return state.schedule.schedule.find(d => d.date === today) || null;
+      }
+      const days = ['wednesday','thursday','friday','saturday','sunday','monday','tuesday'];
+      for(const day of days){
+        if(q.includes(day)){
+          return state.schedule.schedule.find(d => normalizeText(d.day) === day) || null;
+        }
+      }
+      const dateMatch = question.match(/\d{4}-\d{2}-\d{2}/);
+      if(dateMatch){
+        return state.schedule.schedule.find(d => d.date === dateMatch[0]) || null;
+      }
+      return null;
+    }
+
+    function findArtistByQuestion(question){
+      const q = normalizeText(question);
+      let best = null;
+      let bestLen = 0;
+
+      const artistList = (state.artists && state.artists.artists) ? state.artists.artists : [];
+      artistList.forEach(artist => {
+        const variants = [artist.artist_name, ...(artist.aliases || [])];
+        variants.forEach(v => {
+          const n = normalizeText(v);
+          if(n && q.includes(n) && n.length > bestLen){
+            best = artist;
+            bestLen = n.length;
+          }
+        });
+      });
+
+      return best;
+    }
+
+    function findArtistInSchedule(question){
+      if(!state.schedule || !state.schedule.schedule) return null;
+      const q = normalizeText(question);
+      let best = null;
+      let bestLen = 0;
+      state.schedule.schedule.forEach(day => {
+        (day.acts || []).forEach(act => {
+          const name = normalizeText(act.artist_name);
+          if(name && q.includes(name) && name.length > bestLen){
+            best = { day, act };
+            bestLen = name.length;
+          }
+        });
+      });
+      return best;
+    }
+
+    function lookupArtistMetadata(question){
+      const byArtist = findArtistByQuestion(question);
+      if(byArtist) return byArtist;
+
+      const scheduled = findArtistInSchedule(question);
+      if(scheduled){
+        return findArtistByQuestion(scheduled.act.artist_name);
+      }
+      return null;
+    }
+
+    function availableArtistLinks(artist){
+      if(!artist || !artist.links) return [];
+      return Object.entries(artist.links)
+        .filter(([, value]) => typeof value === 'string' && value.trim())
+        .map(([key, value]) => ({ key, value }));
+    }
+
+    function formatLinkLabel(key){
+      return key
+        .replace(/_/g, ' ')
+        .replace(/\b\w/g, c => c.toUpperCase());
+    }
+
+    function handleGenreQuestion(question){
+      const artist = lookupArtistMetadata(question);
+      if(!artist) return null;
+
+      if(artist.genres && artist.genres.length){
+        const genres = artist.genres.join(', ');
+        const summary = artist.style_summary ? `<br><br>${artist.style_summary}` : '';
+        return {
+          answer: `${artist.artist_name} is tagged here as ${genres}.${summary}`,
+          source: 'Source: Local artist metadata JSON'
+        };
+      }
+
+      return {
+        answer: `I found ${artist.artist_name}, but no verified genre profile is loaded for that artist yet.`,
+        source: 'Source: Local artist metadata JSON'
+      };
+    }
+
+    function handleArtistLinkQuestion(question){
+      const artist = lookupArtistMetadata(question);
+      if(!artist) return null;
+
+      const links = availableArtistLinks(artist);
+      if(!links.length){
+        return {
+          answer: `I found ${artist.artist_name}, but no verified artist links are loaded for that artist yet.`,
+          source: 'Source: Local artist metadata JSON'
+        };
+      }
+
+      const html = links.map(link => `<a class="inline-link" href="${link.value}" target="_blank" rel="noopener noreferrer">${formatLinkLabel(link.key)}</a>`).join('<br>');
+      return {
+        answer: `${artist.artist_name}<br><br>${html}`,
+        source: 'Source: Local artist metadata JSON'
+      };
+    }
+
+    function handleArtistTimeQuestion(question){
+      const artistHit = findArtistInSchedule(question);
+      if(!artistHit) return null;
+      return {
+        answer: `${artistHit.act.artist_name} is listed for ${artistHit.day.day}, ${artistHit.day.date} at ${artistHit.act.start_time}.`,
+        source: 'Source: Current public schedule snapshot loaded from WWOZ'
+      };
+    }
+
+    function handleNightGenreQuestion(question){
+      const dayEntry = findScheduleByDateOrDay(question);
+      if(!dayEntry) return null;
+      const summaries = [];
+      (dayEntry.acts || []).forEach(act => {
+        const artist = findArtistByQuestion(act.artist_name);
+        if(artist && artist.genres && artist.genres.length){
+          summaries.push(`${act.artist_name}: ${artist.genres.join(', ')}`);
+        }
+      });
+
+      if(summaries.length){
+        return {
+          answer: `${dayEntry.day}, ${dayEntry.date}<br><br>${summaries.join('<br>')}`,
+          source: 'Source: Local artist metadata JSON + current public schedule snapshot'
+        };
+      }
+
+      return {
+        answer: `I found the schedule for ${dayEntry.day}, ${dayEntry.date}, but I do not have verified genre data loaded for those acts yet.`,
+        source: 'Source: Current public schedule snapshot'
+      };
+    }
+
+    function handleLocalQuestion(question){
+      const q = normalizeText(question);
+
+      if(q.includes('what kind of music') || q.includes('what style') || q.includes('genre')){
+        const genreResponse = handleGenreQuestion(question);
+        if(genreResponse) return genreResponse;
+
+        if(q.includes('thursday') || q.includes('friday') || q.includes('wednesday') || q.includes('saturday') || q.includes('sunday') || q.includes('tonight') || q.includes('today')){
+          return handleNightGenreQuestion(question);
+        }
+      }
+
+      if(q.includes('link') || q.includes('website') || q.includes('instagram') || q.includes('youtube') || q.includes('spotify') || q.includes('facebook')){
+        const linkResponse = handleArtistLinkQuestion(question);
+        if(linkResponse) return linkResponse;
+      }
+
+      if(q.includes('when is') || q.includes('what time') || q.includes('what night') || q.includes('when does')){
+        const artistTime = handleArtistTimeQuestion(question);
+        if(artistTime) return artistTime;
+      }
+
+      if(/who.*play|who.*playing|what.*happening|what.*on/.test(q)){
+        const dayEntry = findScheduleByDateOrDay(question);
+        if(dayEntry){
+          return {
+            answer: formatDaySchedule(dayEntry),
+            source: 'Source: Current public schedule snapshot loaded from WWOZ'
+          };
+        }
+      }
+
+      const dayEntry = findScheduleByDateOrDay(question);
+      if(dayEntry && (q.includes('schedule') || q.includes('who') || q.includes('tonight') || q.includes('today'))){
+        return {
+          answer: formatDaySchedule(dayEntry),
+          source: 'Source: Current public schedule snapshot loaded from WWOZ'
+        };
+      }
+
+      const faq = findFaqAnswer(question);
+      if(faq){
+        return {
+          answer: faq.answer,
+          source: `Source: ${faq.source}`
+        };
+      }
+
+      return {
+        answer: state.knowledge.routing.unknown_fallback,
+        source: 'Source: Local JazzyCat knowledge JSON'
+      };
+    }
+
+    async function ask(rawQuestion){
+      const question = String(rawQuestion || '').trim();
+      if(!question) return;
+      const input = document.getElementById('chatInput');
+      appendMessage('user', question);
+      appendTyping();
+      await new Promise(r => setTimeout(r, 180));
+      const response = handleLocalQuestion(question);
+      removeTyping();
+      appendMessage('bot', response.answer, response.source);
+      if(input) input.value = '';
+    }
+
+    async function init(){
+      try{
+        const [knowledge, schedule, artists] = await Promise.all([
+          loadJson('./data/jazzycat-knowledge.json'),
+          loadJson('./data/jazzycat-current-schedule.json').catch(() => null),
+          loadJson('./data/jazzycat-artists.json').catch(() => null)
+        ]);
+        state.knowledge = knowledge;
+        state.schedule = schedule;
+        state.artists = artists;
+        renderUi();
+      }catch(err){
+        setLoadingMessage('JazzyCat could not load its knowledge files.');
+        console.error(err);
+      }
+    }
+
+    document.getElementById('sendBtn').addEventListener('click', () => ask(document.getElementById('chatInput').value));
+    document.getElementById('chatInput').addEventListener('keydown', (e) => {
+      if(e.key === 'Enter'){
+        e.preventDefault();
+        ask(document.getElementById('chatInput').value);
+      }
+    });
+
+    init();
+  </script>
+</body>
+</html>
